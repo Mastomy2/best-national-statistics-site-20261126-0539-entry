@@ -1,0 +1,136 @@
+/* StatNusa — identitas visual asli: biru laut dalam, aksen kunyit, tipografi sistem.
+   Tanpa font eksternal: semua huruf dari font sistem perangkat, tanpa request jaringan. */
+:root {
+  --ink: #0f172a;
+  --muted: #475569;
+  --faint: #64748b;
+  --line: #e2e8f0;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --teal: #0e7490;
+  --teal-dark: #155e75;
+  --amber: #b45309;
+  --green: #15803d;
+  --radius: 12px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+  font-size: 16px;
+}
+a { color: var(--teal); }
+a:hover { color: var(--teal-dark); }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.site-header { background: #083344; color: #fff; }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; padding-top: 14px; padding-bottom: 14px; }
+.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: #fff; }
+.brand-mark { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+.brand-mark b { color: #fbbf24; font-weight: 800; }
+.brand-sub { font-size: 12px; color: #a5f3fc; letter-spacing: 0.4px; }
+.main-nav { display: flex; flex-wrap: wrap; gap: 2px; margin-left: auto; }
+.main-nav a {
+  color: #e0f2fe; text-decoration: none; font-size: 14.5px; font-weight: 600;
+  padding: 8px 12px; border-radius: 8px;
+}
+.main-nav a:hover { background: #155e75; color: #fff; }
+.main-nav a.active { background: #fbbf24; color: #083344; }
+
+/* Hero */
+.hero { background: linear-gradient(135deg, #083344 0%, #0e7490 100%); color: #fff; padding: 40px 0 34px; }
+.hero h1 { margin: 0 0 8px; font-size: 34px; line-height: 1.15; letter-spacing: -0.5px; max-width: 640px; }
+.hero p { margin: 0; color: #cffafe; max-width: 640px; font-size: 17px; }
+.hero .updated { margin-top: 14px; font-size: 13px; color: #a5f3fc; }
+.year-picker { margin-top: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.year-picker label { font-weight: 700; font-size: 14px; }
+.year-picker select, .controls select, .controls input[type="search"] {
+  font: inherit; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line);
+  background: #fff; color: var(--ink);
+}
+.year-picker select { border-color: #155e75; }
+
+/* Kartu KPI */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 26px 0; }
+.kpi {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 16px 12px;
+}
+.kpi .k-label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.kpi .k-value { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; margin: 4px 0 2px; }
+.kpi .k-note { font-size: 13px; color: var(--faint); margin: 0; }
+.kpi .k-src { font-size: 12px; color: var(--faint); margin: 6px 0 0; }
+
+/* Seksi dan kartu */
+main .wrap { padding-top: 8px; padding-bottom: 40px; }
+section { margin-top: 30px; }
+section > h2 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.3px; }
+section > p.lede { color: var(--muted); margin: 0 0 16px; max-width: 720px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 16px;
+}
+.card h3 { margin: 0 0 4px; font-size: 18px; }
+.card .src { font-size: 13px; color: var(--faint); margin: 0 0 12px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-2 .card { margin-bottom: 0; }
+.chart-toggle { display: flex; gap: 8px; margin-bottom: 10px; }
+.btn {
+  font: inherit; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 8px;
+  border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer;
+}
+.btn:hover { border-color: var(--teal); color: var(--teal-dark); }
+.btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+.btn.primary:hover { background: var(--teal-dark); color: #fff; }
+.btn[aria-pressed="true"] { background: #083344; border-color: #083344; color: #fff; }
+
+/* Tabel */
+.controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.controls input[type="search"] { flex: 1 1 220px; }
+table.data { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+table.data th, table.data td { text-align: right; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+table.data th:first-child, table.data td:first-child { text-align: left; }
+table.data th { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.4px; }
+table.data tbody tr:hover { background: #f0f9ff; }
+table.data th button { all: unset; cursor: pointer; font: inherit; color: inherit; }
+table.data th button:hover { color: var(--teal-dark); text-decoration: underline; }
+.table-wrap { overflow-x: auto; }
+.empty-note { color: var(--faint); padding: 18px 4px; }
+
+/* Daftar dan metodologi */
+.fact-list { margin: 0; padding: 0; list-style: none; }
+.fact-list li { padding: 10px 0; border-bottom: 1px solid var(--line); display: flex; gap: 12px; }
+.fact-list li:last-child { border-bottom: 0; }
+.fact-list .f-num { font-weight: 800; color: var(--teal); min-width: 34px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13.5px; color: var(--muted); margin: 8px 0 0; padding: 0; list-style: none; }
+.legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.callout { background: #fefce8; border: 1px solid #fde68a; border-radius: var(--radius); padding: 14px 18px; font-size: 14.5px; }
+.callout b { color: #92400e; }
+.source-note { font-size: 13px; color: var(--faint); }
+
+/* Footer */
+.site-footer { background: #083344; color: #cbd5e1; padding: 26px 0 34px; font-size: 14px; }
+.site-footer a { color: #a5f3fc; }
+.site-footer .wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.site-footer h4 { color: #fff; margin: 0 0 8px; font-size: 15px; }
+.site-footer ul { margin: 0; padding: 0; list-style: none; }
+.site-footer li { margin-bottom: 4px; }
+
+/* Telepon */
+@media (max-width: 760px) {
+  .hero h1 { font-size: 27px; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .main-nav { margin-left: 0; }
+  .main-nav a { padding: 7px 9px; font-size: 13.5px; }
+  .site-footer .wrap { grid-template-columns: 1fr; }
+  .kpi .k-value { font-size: 24px; }
+}
+@media (max-width: 420px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+}
