@@ -27,6 +27,8 @@ export function renderHome(year) {
   const pop = yearValue('populationMillions', year);
   const inf = yearValue('inflationPct', year);
   const unemp = yearValue('unemploymentPct', year);
+  const hdi = yearValue('hdi', year);
+  const pov = yearValue('povertyPct', year);
   return `
   <section class="hero" style="margin:-8px -20px 0; padding-left:20px; padding-right:20px;">
     <h1>Statistik Indonesia, lengkap dan terbaru</h1>
@@ -47,6 +49,8 @@ export function renderHome(year) {
       <article class="kpi"><div class="k-label">Pertumbuhan PDB</div><div class="k-value">${fmtId(g)}%</div><p class="k-note">${g >= 0 ? 'Ekonomi tumbuh' : 'Ekonomi terkontraksi'} ${fmtId(Math.abs(g))}% pada ${year}</p><p class="k-src">Sumber: BPS</p></article>
       <article class="kpi"><div class="k-label">Inflasi (Desember)</div><div class="k-value">${fmtId(inf)}%</div><p class="k-note">y-on-y bulan Desember ${year}</p><p class="k-src">Sumber: BPS</p></article>
       <article class="kpi"><div class="k-label">Pengangguran (Agustus)</div><div class="k-value">${fmtId(unemp)}%</div><p class="k-note">Tingkat pengangguran terbuka</p><p class="k-src">Sumber: BPS, Sakernas</p></article>
+      <article class="kpi"><div class="k-label">IPM</div><div class="k-value">${fmtId(hdi)}</div><p class="k-note">Kategori tinggi, skala 0–100</p><p class="k-src">Sumber: BPS</p></article>
+      <article class="kpi"><div class="k-label">Kemiskinan</div><div class="k-value">${fmtId(pov)}%</div><p class="k-note">Penduduk miskin, September ${year}</p><p class="k-src">Sumber: BPS</p></article>
     </div>
   </section>
   <section>

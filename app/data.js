@@ -99,7 +99,7 @@ export const PROVINCES = [
   { name: 'Sumatera Barat', pop: 5.9, area: 42013, density: 140 },
   { name: 'Kalimantan Barat', pop: 5.71, area: 147307, density: 39 },
   { name: 'Nusa Tenggara Timur', pop: 5.6, area: 48718, density: 115 },
-  { name: 'Kalimantan Timur', pop: 4.04, area: 129067, density: 31 },
+  { name: 'Aceh', pop: 5.55, area: 57956, density: 96 },
 ];
 
 // Struktur umur penduduk 2024 (%). Sumber: BPS.

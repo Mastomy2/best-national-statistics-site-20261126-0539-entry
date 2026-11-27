@@ -58,7 +58,7 @@ export function lineChart({ points, width = 640, height = 280, color = '#0e7490'
   const grid = [0, 0.5, 1].map((f) => {
     const v = min + (max - min) * f;
     const gy = y(v);
-    return `<line x1="${padL}" y1="${gy.toFixed(1)}" x2="${width - 12}" y2="${gy.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`;
+    return `<line x1="${padL}" y1="${gy.toFixed(1)}" x2="${width - 12}" y2="${gy.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/><text x="${padL - 6}" y="${(gy + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#64748b">${format(Math.round(v * 10) / 10)}</text>`;
   }).join('');
   return `<svg viewBox="0 0 ${width} ${height}" width="100%" role="img" aria-label="${esc(title || 'Grafik garis')}">${grid}<path d="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}</svg>`;
 }
