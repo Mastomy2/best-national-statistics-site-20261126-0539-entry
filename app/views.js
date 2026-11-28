@@ -1,7 +1,21 @@
 // Tampilan tiap halaman StatNusa. Setiap halaman dirender dari data.js —
 // tidak ada angka yang ditulis tangan di HTML, semua lewat fungsi ini.
-import { META, SERIES, SNAPSHOT_2024, PROVINCES, AGE_GROUPS, SECTORS_2024, TRADE_PARTNERS_2024, YEARS, seriesPoints, fmtId } from './data.js';
-import { barChart, lineChart, donutChart, hbarChart, PALETTE } from './charts.js';
+import { META, SERIES, SNAPSHOT_2024, PROVINCES, AGE_GROUPS, SECTORS_2024, TRADE_PARTNERS_2024, ASEAN_2024, YEARS, seriesPoints, fmtId } from './data.js';
+import { barChart, lineChart, donutChart, hbarChart, tileGridChart, PALETTE } from './charts.js';
+
+// Peta ubin 14 provinsi terbesar: [kolom, baris] mendekati letak geografis.
+const TILE_GRID = PROVINCES.map((p) => {
+  const pos = {
+    'Aceh': [0, 0, 'Aceh'], 'Sumatera Utara': [1, 0, 'Sumut'],
+    'Riau': [2, 0, 'Riau'], 'Kalimantan Barat': [5, 0, 'Kalbar'],
+    'Sumatera Barat': [1, 1, 'Sumbar'], 'Sumatera Selatan': [2, 1, 'Sumsel'],
+    'Banten': [3, 1, 'Banten'], 'DKI Jakarta': [4, 1, 'DKI'],
+    'Lampung': [2, 2, 'Lampung'], 'Jawa Barat': [3, 2, 'Jabar'],
+    'Jawa Tengah': [4, 2, 'Jateng'], 'Jawa Timur': [5, 2, 'Jatim'],
+    'Sulawesi Selatan': [5, 3, 'Sulsel'], 'Nusa Tenggara Timur': [6, 3, 'NTT'],
+  }[p.name];
+  return { label: p.name, short: pos[2], col: pos[0], row: pos[1], value: p.pop, text: `${fmtId(p.pop)} jt` };
+});
 
 function srcLine(seriesKey) {
   const s = SERIES[seriesKey];
@@ -72,6 +86,17 @@ export function renderHome(year) {
       <div class="card"><h3><a href="#/sosial">IPM 75,02 — kategori tinggi</a></h3><p>Kesehatan, pendidikan, kemiskinan dan ketimpangan — BPS 2024.</p></div>
       <div class="card"><h3><a href="#/daerah">Daerah: Jawa Barat terpadat</a></h3><p>Perbandingan 14 provinsi: penduduk, luas, kepadatan — BPS 2024.</p></div>
     </div>
+  </section>
+  <section>
+    <h2>Sumber data &amp; metodologi</h2>
+    <p class="lede">Semua angka di situs ini memakai sumber resmi yang bisa diperiksa.</p>
+    <div class="card">
+      <p style="margin:0 0 8px"><b>BPS</b> — penduduk, PDB, inflasi, pengangguran, kemiskinan, IPM,
+      perdagangan &middot; <b>Bank Dunia</b> — PDB per kapita 2024 &middot; <b>APJII</b> —
+      pengguna internet 2024. <a href="#/metodologi">Lihat metodologi &amp; definisi &rarr;</a></p>
+      <p class="source-note" style="margin:0">StatNusa independen, bukan situs resmi BPS.
+      Semua data tersimpan di situs ini, tanpa memuat dari jaringan.</p>
+    </div>
   </section>`;
 }
 
@@ -107,9 +132,13 @@ export function renderPopulation(year) {
       </div>
     </div>
     <div class="card">
-      <h3>Provinsi berpenduduk terbesar 2024</h3>
+      <h3>Peta sebaran penduduk 2024</h3>
       <p class="src">Sumber: BPS, estimasi tengah tahun 2024 &middot; <a href="#/daerah">Lihat tabel lengkap 14 provinsi</a></p>
-      ${hbarChart({ items: [...PROVINCES].sort((a, b) => b.pop - a.pop).slice(0, 8).map((p) => ({ label: p.name, value: p.pop })), format: (v) => `${fmtId(v)} jt`, title: 'Provinsi berpenduduk terbesar 2024' })}
+      ${tileGridChart({ tiles: TILE_GRID, title: 'Peta ubin 14 provinsi terbesar 2024' })}
+      <p class="source-note">Peta ubin: tiap kotak satu provinsi, posisi mendekati letak
+      geografis; warna = jumlah penduduk (gelap = lebih banyak). Jawa Barat
+      49,94 juta jiwa adalah provinsi berpenduduk terbesar.</p>
+      <p class="src" style="margin-top:8px;">Warna: <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#083344;vertical-align:-1px"></span> &ge;35 jt &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#0e7490;vertical-align:-1px"></span> 10&ndash;35 jt &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#2a9db5;vertical-align:-1px"></span> 7&ndash;10 jt &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#bfe3ec;vertical-align:-1px"></span> &lt;7 jt</p>
     </div>
   </section>`;
 }
@@ -141,6 +170,15 @@ export function renderEconomy(year, chartType) {
         <button class="btn" data-action="chart-type" data-type="line" aria-pressed="${chartType === 'line'}">Garis</button>
       </div>
       ${chart}
+    </div>
+    <div class="card">
+      <h3>Indonesia di ASEAN: PDB per kapita 2024 (US$)</h3>
+      <p class="src">Sumber: Bank Dunia, 2024 (harga berlaku)</p>
+      ${hbarChart({ items: ASEAN_2024.map((a) => ({ label: a.country, value: a.gdpPcap, color: a.country === 'Indonesia' ? '#b45309' : undefined })), format: (v) => `US$ ${fmtId(v, 0)}`, title: 'PDB per kapita ASEAN 2024' })}
+      <p class="source-note">Singapura (US$ 94.897) tidak digambarkan agar skala terbaca —
+      nilainya 19 kali Indonesia. Penduduk 2024: Indonesia 281,6 jt (BPS);
+      Filipina 115,8 jt; Vietnam 101,0 jt; Thailand 71,7 jt; Malaysia 35,6 jt;
+      Singapura 6,0 jt (Bank Dunia).</p>
     </div>
     <div class="grid-2">
       <div class="card">

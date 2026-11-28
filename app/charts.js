@@ -98,9 +98,25 @@ export function hbarChart({ items, width = 640, barH = 26, gap = 12, color = '#0
   const rows = items.map((it, i) => {
     const y = 6 + i * (barH + gap);
     const w = Math.max(2, ((it.value / max) * (width - padL - 70)).toFixed(1));
-    return `<text x="${padL - 8}" y="${(y + barH / 2 + 4).toFixed(1)}" text-anchor="end" font-size="12" fill="#0f172a">${esc(it.label)}</text><rect x="${padL}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}"><title>${esc(it.label)}: ${format(it.value)}</title></rect><text x="${padL + Number(w) + 8}" y="${(y + barH / 2 + 4).toFixed(1)}" font-size="12" font-weight="600" fill="#0f172a">${format(it.value)}</text>`;
+    return `<text x="${padL - 8}" y="${(y + barH / 2 + 4).toFixed(1)}" text-anchor="end" font-size="12" fill="#0f172a">${esc(it.label)}</text><rect x="${padL}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${it.color || color}"><title>${esc(it.label)}: ${format(it.value)}</title></rect><text x="${padL + Number(w) + 8}" y="${(y + barH / 2 + 4).toFixed(1)}" font-size="12" font-weight="600" fill="#0f172a">${format(it.value)}</text>`;
   }).join('');
   return `<svg viewBox="0 0 ${width} ${height}" width="100%" role="img" aria-label="${esc(title || 'Grafik batang horizontal')}">${rows}</svg>`;
 }
 
 export const PALETTE = ['#0e7490', '#b45309', '#15803d', '#7c3aed', '#be185d', '#0369a1', '#a16207'];
+
+// Peta ubin (tile grid): tiap provinsi satu kotak, posisi mendekati letak
+// geografis; warna = jumlah penduduk (gelap = lebih banyak).
+export function tileGridChart({ tiles, width = 640, cols = 7, tileH = 56, gap = 6, title = '' }) {
+  const tileW = (width - (cols - 1) * gap) / cols;
+  const rows = Math.max(...tiles.map((t) => t.row)) + 1;
+  const height = rows * tileH + (rows - 1) * gap;
+  const fill = (v) => v >= 35 ? '#083344' : v >= 10 ? '#0e7490' : v >= 7 ? '#2a9db5' : '#bfe3ec';
+  const ink = (v) => v >= 7 ? '#ffffff' : '#083344';
+  const cells = tiles.map((t) => {
+    const x = t.col * (tileW + gap);
+    const y = t.row * (tileH + gap);
+    return `<g><rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${tileW.toFixed(1)}" height="${tileH}" rx="6" fill="${fill(t.value)}"><title>${esc(t.label)}: ${esc(t.text)}</title></rect><text x="${(x + tileW / 2).toFixed(1)}" y="${(y + 23).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="700" fill="${ink(t.value)}">${esc(t.short)}</text><text x="${(x + tileW / 2).toFixed(1)}" y="${(y + 41).toFixed(1)}" text-anchor="middle" font-size="11" fill="${ink(t.value)}">${esc(t.text)}</text></g>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${width} ${height}" width="100%" role="img" aria-label="${esc(title || 'Peta ubin')}">${cells}</svg>`;
+}

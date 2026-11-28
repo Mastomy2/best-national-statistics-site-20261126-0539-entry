@@ -132,6 +132,19 @@ export const TRADE_PARTNERS_2024 = [
 
 export const YEARS = [2020, 2021, 2022, 2023, 2024];
 
+// PDB per kapita 2024 (US$ harga berlaku) + penduduk 2024, 5 negara ASEAN.
+// Sumber: Bank Dunia (api.worldbank.org, indikator NY.GDP.PCAP.CD dan
+// SP.POP.TOTL, diakses 28 Nov 2026). Penduduk Indonesia memakai BPS 281,6 jt
+// (angka Bank Dunia 283,5 jt); negara lain memakai Bank Dunia.
+// Singapura (US$ 94.897) tidak digambarkan agar skala terbaca — 19× Indonesia.
+export const ASEAN_2024 = [
+  { country: 'Malaysia', gdpPcap: 11874, popMillions: 35.6 },
+  { country: 'Thailand', gdpPcap: 7387, popMillions: 71.7 },
+  { country: 'Indonesia', gdpPcap: 4925, popMillions: 281.6 },
+  { country: 'Vietnam', gdpPcap: 4717, popMillions: 101.0 },
+  { country: 'Filipina', gdpPcap: 3985, popMillions: 115.8 },
+];
+
 export function seriesPoints(key) {
   const s = SERIES[key];
   return YEARS.map((y) => ({ year: y, value: s.values[y] }));
