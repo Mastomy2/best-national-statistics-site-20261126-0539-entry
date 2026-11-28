@@ -54,7 +54,14 @@ export function lineChart({ points, width = 640, height = 280, color = '#0e7490'
   const x = (i) => points.length === 1 ? padL + iw / 2 : padL + (i / (points.length - 1)) * iw;
   const y = (v) => padT + ih - ((v - min) / (max - min)) * ih;
   const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
-  const dots = points.map((p, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(p.value).toFixed(1)}" r="4.5" fill="#fff" stroke="${color}" stroke-width="2.5"><title>${p.year}: ${format(p.value)}</title></circle><text x="${x(i).toFixed(1)}" y="${(y(p.value) - 10).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">${format(p.value)}</text><text x="${x(i).toFixed(1)}" y="${(height - 8).toFixed(1)}" text-anchor="middle" font-size="11" fill="#475569">${p.year}</text>`).join('');
+  const dots = points.map((p, i) => {
+    // Label nilai dijepit ke dalam viewBox: label titik terakhir (x = width - 12)
+    // sebelumnya terpotong di tepi kanan kartu ("281,60" tinggal "281,6").
+    const lab = format(p.value);
+    const halfW = lab.length * 3.5 + 2;
+    const lx = Math.max(halfW, Math.min(x(i), width - 2 - halfW));
+    return `<circle cx="${x(i).toFixed(1)}" cy="${y(p.value).toFixed(1)}" r="4.5" fill="#fff" stroke="${color}" stroke-width="2.5"><title>${p.year}: ${lab}</title></circle><text x="${lx.toFixed(1)}" y="${(y(p.value) - 10).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">${lab}</text><text x="${x(i).toFixed(1)}" y="${(height - 8).toFixed(1)}" text-anchor="middle" font-size="11" fill="#475569">${p.year}</text>`;
+  }).join('');
   const grid = [0, 0.5, 1].map((f) => {
     const v = min + (max - min) * f;
     const gy = y(v);
